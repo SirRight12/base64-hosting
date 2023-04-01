@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Base64 Encoder</title>
+        <style>
+            body {
+                background-color: dimgray;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align:center;padding-top:10%;">
+            <input type="file" id="myFile">
+            <br>
+            <br>
+            <button type="button" onclick="encodeBase64()">Copy Base64</button>
+            <br>
+            <br>
+            <!-- <font style="font-family:sans-serif;">Base64:</font><br> -->
+        </div>
+        <script>
+
+            function encodeBase64() {
+                var filePath = document.getElementById("myFile").files[0];
+
+                fileReader = new FileReader();
+                fileReader.readAsDataURL(filePath);
+                fileReader.onload = function() {
+                    var re = new RegExp(';base64,');
+                    var results = fileReader.result.toString();
+                    var matchIndex = re.exec(results).index + 8;
+                    base64String = results.substring(matchIndex);
+                    navigator.clipboard.writeText(base64String);
+                }
+                ;
+                fileReader.onerror = function() {
+                    console.log('Error:' + error);
+                }
+                ;
+            }
+        </script>
+    </body>
+</html>
